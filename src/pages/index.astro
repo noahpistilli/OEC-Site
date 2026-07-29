@@ -4,6 +4,7 @@ import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/Navbar.astro";
 import Sponsors from "../components/Sponsors.astro";
 import About from "../components/About.astro";
+import Footer from "../components/Footer.astro";
 
 const navItems = [
     { label: "Home", href: "/" },
@@ -13,7 +14,7 @@ const navItems = [
 ];
 ---
 
-<Layout siteTitle="Ontario Engineering Competition 2026">
+<Layout siteTitle="Ontario Engineering Competition 2027">
     <Navbar scrollEffect={true} navItems={navItems} currentPage="Home" />
     <Hero />
     <div
@@ -24,6 +25,6 @@ const navItems = [
         <About />
         <hr class="border-t border-gray-300 my-16" />
         <Sponsors />
-        <div class="w-full h-[4000px] bg-white"></div>
     </div>
+    <Footer />
 </Layout>
