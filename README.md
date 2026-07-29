@@ -1,0 +1,1 @@
+# Website for the 2026 OEC Ontario Engineering Competition, built statically on Astro by Alex :3

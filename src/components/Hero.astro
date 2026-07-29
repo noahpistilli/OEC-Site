@@ -1,0 +1,199 @@
+---
+import { ChevronDown } from '@lucide/astro';
+---
+
+<div class="w-screen h-screen relative overflow-hidden">
+    <div
+        id="hero-text"
+        class="mb-8 max-w-7xl absolute inset-0 z-20 flex flex-col items-start justify-end text-white text-left px-8 md:px-16 mx-auto"
+    >
+        <img src="/img/oec_logo.svg" alt="OEC Logo" class="w-32 h-32 mb-8" />
+        <p class="mb-6 text-2xl">Toronto Metropolitan University proudly presents...</p>
+        <h1 class="text-5xl md:text-7xl font-bold mb-4 relative font-[Rubik]">
+            Ontario Engineering Competition
+            <span
+                class="relative -top-6 -right-4 bg-white/20 backdrop-blur-sm text-lg font-[System-UI] font-normal px-3 py-1 rounded-full whitespace-nowrap"
+                >2027</span
+            >
+        </h1>
+        <div
+            id="countdown"
+            class="mt-8 flex gap-3 justify-start text-2xl font-bold"
+        >
+        </div>
+
+        <ChevronDown class="mt-8 w-10 h-10 text-white" />
+    </div>
+
+    <div>
+        <div
+            class="w-full bottom-0 left-0 absolute -translate-x-18 translate-y-8 z-10"
+        >
+            <img
+                class="min-w-[1500px] wave absolute bottom-0 left-0 will-change-transform backdrop-blur-md z-2 [mask-image:url(/img/Wave_1.svg)] [mask-size:100%_100%] [mask-repeat:no-repeat]"
+                src="/img/Wave_1.svg"
+            />
+            <img
+                class="min-w-[1500px] wave absolute bottom-0 left-0 will-change-transform backdrop-blur-md z-2 [mask-image:url(/img/Wave_2.svg)] [mask-size:100%_100%] [mask-repeat:no-repeat]"
+                src="/img/Wave_2.svg"
+            />
+            <img
+                class="min-w-[1500px] wave absolute bottom-0 left-0 will-change-transform backdrop-blur-md z-2 [mask-image:url(/img/Wave_3.svg)] [mask-size:100%_100%] [mask-repeat:no-repeat]"
+                src="/img/Wave_3.svg"
+            />
+        </div>
+
+        <div id="particles" class="absolute inset-0 z-1"></div>
+
+        <div
+            class="absolute bottom-0 left-0 w-full h-full bg-gradient-to-t from-blue-700/80 to-transparent z-1"
+        >
+        </div>
+
+        <video
+            class="w-screen h-screen blur-lg object-cover z-0 scale-110"
+            autoplay
+            loop
+            playsinline
+            muted
+        >
+            <source src="/img/oecvideo.mp4" type="video/mp4" />
+        </video>
+    </div>
+</div>
+
+<script>
+    const script = document.createElement("script");
+    script.src = "/countdown.min.js";
+    script.onload = () => {
+        const target = new Date("2026-12-31T00:00:00");
+        const el = document.getElementById("countdown");
+
+        if (el) {
+            el.innerHTML = `
+                <span class="countdown-value flex flex-col items-start"><span class="countdown-number text-5xl px-4 py-2 rounded-lg backdrop-blur-md bg-white/10 font-mono">0</span> <span class="countdown-label text-sm font-light">Days</span></span>
+                <span class="countdown-value flex flex-col items-start"><span class="countdown-number text-5xl px-4 py-2 rounded-lg backdrop-blur-md bg-white/10 font-mono">0</span> <span class="countdown-label text-sm font-light">Hours</span></span>
+                <span class="countdown-value flex flex-col items-start"><span class="countdown-number text-5xl px-4 py-2 rounded-lg backdrop-blur-md bg-white/10 font-mono">0</span> <span class="countdown-label text-sm font-light">Minutes</span></span>
+                <span class="countdown-value flex flex-col items-start"><span class="countdown-number text-5xl px-4 py-2 rounded-lg backdrop-blur-md bg-white/10 font-mono">0</span> <span class="countdown-label text-sm font-light">Seconds</span></span>
+            `;
+
+            const numbers = el.querySelectorAll(".countdown-number");
+            let prevValues = [0, 0, 0, 0];
+
+            countdown(
+                target,
+                (ts) => {
+                    const values = [
+                        ts.days || 0,
+                        ts.hours || 0,
+                        ts.minutes || 0,
+                        ts.seconds || 0,
+                    ];
+
+                    values.forEach((val, i) => {
+                        if (val !== prevValues[i]) {
+                            numbers[i].textContent = val;
+                            numbers[i].classList.remove("countdown-value");
+                            void numbers[i].offsetWidth;
+                            numbers[i].classList.add("countdown-value");
+                        }
+                    });
+
+                    prevValues = values;
+                },
+                countdown.DAYS |
+                    countdown.HOURS |
+                    countdown.MINUTES |
+                    countdown.SECONDS,
+            );
+        }
+    };
+    document.head.appendChild(script);
+
+    const waves = document.querySelectorAll(".wave");
+    const mouseSpeeds = [0.04, 0.08, 0.12];
+    const autoSpeeds = [0.0008, 0.0012, 0.0018];
+    const amplitudes = [8, 14, 20];
+
+    let mouseX = 0;
+    let mouseY = 0;
+
+    document.addEventListener("mousemove", (e) => {
+        mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+        mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+    });
+
+    function animate(time) {
+        waves.forEach((wave, i) => {
+            const autoX = Math.sin(time * autoSpeeds[i]) * amplitudes[i];
+            const autoY =
+                Math.cos(time * autoSpeeds[i] * 0.7) * (amplitudes[i] * 0.5);
+            const moveX = mouseX * mouseSpeeds[i] * 100 + autoX;
+            const moveY = mouseY * mouseSpeeds[i] * 50 + autoY;
+            wave.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        });
+        requestAnimationFrame(animate);
+    }
+
+    requestAnimationFrame(animate);
+
+    const particlesScript = document.createElement("script");
+    particlesScript.src = "/particles.min.js";
+    particlesScript.onload = () => {
+        particlesJS("particles", {
+            particles: {
+                number: {
+                    value: 80,
+                    density: { enable: true, value_area: 800 },
+                },
+                color: { value: "#ffffff" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#ffffff",
+                    opacity: 0.4,
+                    width: 1,
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: "none",
+                    random: false,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                },
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "repulse" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true,
+                },
+            },
+            retina_detect: true,
+        });
+    };
+    document.head.appendChild(particlesScript);
+</script>
+
+<style>
+    @keyframes hero-parallax {
+        from {
+            transform: translateY(0);
+        }
+        to {
+            transform: translateY(-150px);
+        }
+    }
+
+    #hero-text {
+        animation: hero-parallax linear forwards;
+        animation-timeline: scroll();
+        animation-range: 0vh 100vh;
+    }
+</style>

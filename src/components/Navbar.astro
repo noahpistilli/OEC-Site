@@ -1,0 +1,57 @@
+---
+interface NavItem {
+    label: string;
+    href: string;
+}
+
+interface Props {
+    scrollEffect?: boolean;
+    navItems?: NavItem[];
+    currentPage?: string;
+}
+
+const { scrollEffect = false, navItems = [], currentPage = "" } = Astro.props;
+---
+
+<div class="w-full max-w-[1650px] flex items-start left-1/2 -translate-x-1/2 fixed z-50">
+    <nav id="navbar" class:list={[
+        "w-full top-0 m-3 left-0 z-50 p-4 rounded-full transition-all duration-300",
+        { "bg-white": !scrollEffect },
+        { "bg-white": scrollEffect }
+    ]}>
+        <div class="flex items-center justify-between gap-6">
+            <img src="/img/oec_logo_color.png" alt="OEC Logo" class="h-16 w-16" />
+            <ul class="flex items-center gap-4 list-none m-0 p-0">
+                {navItems.map((item) => (
+                    <li>
+                        <a 
+                            href={item.href}
+                            class:list={[
+                                "text-gray-800 font-medium no-underline px-3 py-1 rounded-full transition-colors",
+                                { "bg-blue-500 text-white": currentPage === item.label }
+                            ]}
+                        >
+                            {item.label}
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    </nav>
+</div>
+
+{scrollEffect && (
+    <script>
+        const navbar = document.getElementById('navbar');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > window.innerHeight) {
+                navbar.classList.remove('bg-white');
+                navbar.classList.add('bg-white/20', 'backdrop-blur-xl');
+            } else {
+                navbar.classList.remove('bg-white/20', 'backdrop-blur-xl');
+                navbar.classList.add('bg-white');
+            }
+        }, { passive: true });
+    </script>
+)}

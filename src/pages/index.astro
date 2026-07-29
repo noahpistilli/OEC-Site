@@ -1,0 +1,29 @@
+---
+import Hero from "../components/Hero.astro";
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Sponsors from "../components/Sponsors.astro";
+import About from "../components/About.astro";
+
+const navItems = [
+    { label: "Home", href: "/" },
+    { label: "About", href: "/about" },
+    { label: "Map", href: "/map" },
+    { label: "Competitions", href: "/competitions" },
+];
+---
+
+<Layout siteTitle="Ontario Engineering Competition 2026">
+    <Navbar scrollEffect={true} navItems={navItems} currentPage="Home" />
+    <Hero />
+    <div
+        class="w-full h-screen bg-gradient-to-b from-[rgb(16,46,123)] from-25% to-transparent z-0 absolute"
+    >
+    </div>
+    <div class="max-w-7xl mx-auto relative z-10">
+        <About />
+        <hr class="border-t border-gray-300 my-16" />
+        <Sponsors />
+        <div class="w-full h-[4000px] bg-white"></div>
+    </div>
+</Layout>

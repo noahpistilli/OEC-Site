@@ -1,0 +1,27 @@
+---
+import '../styles/global.css';
+
+interface Props {
+	siteTitle?: string;
+}
+
+const { siteTitle = 'OEC' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="m-0 w-full h-full">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/img/oec_logo_color.png" />
+		<link rel="icon" href="/favicon.ico" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@700&display=swap" rel="stylesheet" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{siteTitle}</title>
+	</head>
+	<body class="m-0 w-full h-full">
+		<slot />
+	</body>
+</html>
