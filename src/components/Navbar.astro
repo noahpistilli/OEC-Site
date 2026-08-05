@@ -6,16 +6,24 @@ interface NavItem {
 
 interface Props {
     scrollEffect?: boolean;
-    navItems?: NavItem[];
     currentPage?: string;
 }
 
-const { scrollEffect = false, navItems = [], currentPage = "" } = Astro.props;
+const navItems = [
+    { label: "Home", href: "/" },
+    { label: "About", href: "/#about" },
+    { label: "Map", href: "/map" },
+    { label: "Resources", href: "/resources" },
+    { label: "Competitions", href: "/#competitions" },
+    { label: "Sponsors", href: "/#sponsors" },
+];
+
+const { scrollEffect = false, currentPage = "" } = Astro.props;
 ---
 
 <div class="w-full max-w-[1650px] flex items-start left-1/2 -translate-x-1/2 fixed z-50">
     <nav id="navbar" class:list={[
-        "w-full top-0 m-3 left-0 z-50 p-4 rounded-full transition-all duration-300",
+        "w-full top-0 m-3 left-0 z-50 p-4 rounded-full border-2 border-white/10 transition-all duration-300",
         { "bg-white": !scrollEffect },
         { "bg-white": scrollEffect }
     ]}>
@@ -27,7 +35,7 @@ const { scrollEffect = false, navItems = [], currentPage = "" } = Astro.props;
                         <a 
                             href={item.href}
                             class:list={[
-                                "text-gray-800 font-medium no-underline px-3 py-1 rounded-full transition-colors",
+                                "text-gray-800 font-medium no-underline px-3 py-1 rounded-full transition-colors hover:bg-blue-100 hover:text-blue-600",
                                 { "bg-blue-500 text-white": currentPage === item.label }
                             ]}
                         >
@@ -55,3 +63,30 @@ const { scrollEffect = false, navItems = [], currentPage = "" } = Astro.props;
         }, { passive: true });
     </script>
 )}
+
+<script>
+    const anchors = [...document.querySelectorAll('#navbar a[href*="#"]')];
+
+    const sections = anchors
+        .map((link) => {
+            const id = link.getAttribute("href").split("#")[1];
+            return { link, el: document.getElementById(id) };
+        })
+        .filter(({ el }) => el);
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    sections.forEach(({ link, el }) => {
+                        link.classList.toggle("!bg-blue-500/70", el === entry.target);
+                        link.classList.toggle("!text-white", el === entry.target);
+                    });
+                }
+            });
+        },
+        { threshold: 0.25 },
+    );
+
+    sections.forEach(({ el }) => observer.observe(el));
+</script>

@@ -1,9 +1,26 @@
 ---
+import { Trophy, School, Users, ListChecks } from "@lucide/astro";
+
 interface Competition {
   title: string;
   description: string;
   image: string;
+  icon: string;
 }
+
+interface Stat {
+  value: number;
+  suffix?: string;
+  label: string;
+  icon: typeof Trophy;
+}
+
+const stats: Stat[] = [
+  { value: 48, suffix: "th", label: "Annual OEC", icon: Trophy },
+  { value: 19, label: "Post-secondary Institutions", icon: School },
+  { value: 350, label: "Competitors", icon: Users },
+  { value: 9, label: "Competition Categories", icon: ListChecks },
+];
 
 const competitions: Competition[] = [
   {
@@ -11,54 +28,63 @@ const competitions: Competition[] = [
     description:
       "First and second-year engineering students tackle technical problems with their creative prowess. They must design, build, and present a prototype to the judges, showcasing early engineering talents.",
     image: "/img/competitions/junior-design.jpg",
+    icon: "gavel",
   },
   {
     title: "Senior Design",
     description:
       "Senior engineering students showcase their expertise by solving complex real-world problems. With limited resources and competition constraints, they must ingeniously design and construct a functional prototype.",
     image: "/img/competitions/senior-design.jpg",
+    icon: "graduation-cap",
   },
   {
     title: "Programming",
     description:
       "This competition challenges competitors to produce a piece of readable software. The teams will use their software development skills, their technical writing abilities, and their project management skills to design a solution to a problem posed.",
     image: "/img/competitions/programming.jpg",
+    icon: "square-terminal",
   },
   {
     title: "Debate",
     description:
       "Competitors must use analytical techniques to present, with minimum preparation, a reasoned point of view of a resolution that has not been disclosed beforehand. The goal is to assess the competitors' abilities to convey ideas and develop arguments in a parliamentary debate format.",
     image: "/img/competitions/debate.jpg",
+    icon: "mic-vocal",
   },
   {
     title: "Re-Engineering",
     description:
       "Competitors are required to take an existing engineering concept, product, technique, or technology and improve its design to suit an alternate situation or application.",
     image: "/img/competitions/re-engineering.jpg",
+    icon: "recycle",
   },
   {
     title: "Consulting",
     description:
       "Competitors are required to design a detailed solution to a large-scale engineering problem. The proposal must be made in a way that promotes the solution to the client in the form of judges and demonstrates a thorough understanding of the solution's impacts.",
     image: "/img/competitions/consulting.jpg",
+    icon: "presentation",
   },
   {
     title: "Communications",
     description:
       "Participants are tasked with presenting complex engineering topics in an accessible way to the public. Judges assess accuracy, creativity, and simplification while encouraging effective science communicators. The goal is to bridge the gap between technical knowledge and public understanding, fostering appreciation for engineering's impact on our world.",
     image: "/img/competitions/communications.jpg",
+    icon: "satellite-dish",
   },
   {
     title: "Innovative Design",
     description:
       "This competition is prepared entirely outside the realm of the OEC. Competitors choose their own topic, prepare research, and develop a design. The designs must be new and innovative and address a void in society.",
     image: "/img/competitions/innovative-design.jpg",
+    icon: "sparkles",
   },
   {
     title: "Bio-Engineering",
     description:
       "Competitors must comprehensively solve a bio-engineering problem. The goal is to identify the issues outlined in the prompt and develop a bio-engineering design process for various applications in healthcare, agriculture, environmental sustainability, and more.",
     image: "/img/competitions/bio-engineering.jpg",
+    icon: "fingerprint-pattern",
   },
 ];
 ---
@@ -67,17 +93,23 @@ const competitions: Competition[] = [
   <div class="mx-auto">
     <div class="grid md:grid-cols-2 gap-12 items-center mb-24">
       <div>
-        <h2 class="text-4xl md:text-5xl font-bold text-center md:text-left mb-6 font-[Rubik]">
+        <h2
+          id="about"
+          class="text-4xl md:text-5xl font-bold text-center md:text-left mb-6 font-[Rubik]"
+        >
           WHAT IS OEC
         </h2>
         <div class="w-1/2 h-px bg-white/30 mx-auto md:mx-0 mb-6"></div>
-        <p class="text-white/70 text-center md:text-left text-lg leading-relaxed">
+        <p
+          class="text-white/70 text-center md:text-left text-lg leading-relaxed"
+        >
           The Ontario Engineering Competition (OEC) is an annual student-run,
           three-day competition that brings together more than 300 of the
           province's brightest students. Competitors demonstrate their
           engineering skills in a competitive environment, while also developing
-          meaningful relationships with their peers. The top two performing teams
-          in each category advance to the Canadian Engineering Competition (CEC).
+          meaningful relationships with their peers. The top two performing
+          teams in each category advance to the Canadian Engineering Competition
+          (CEC).
         </p>
       </div>
       <div class="aspect-[4/3] rounded-lg overflow-hidden bg-white/5">
@@ -89,29 +121,65 @@ const competitions: Competition[] = [
       </div>
     </div>
 
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-24">
+      {
+        stats.map((stat) => {
+          const Icon = stat.icon;
+          return (
+            <div class="flex flex-col items-center text-center">
+              <div
+                class="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mb-4"
+              >
+                <Icon class="w-8 h-8 text-white" />
+              </div>
+              <p class="text-5xl md:text-6xl font-bold font-mono mb-2">
+                <span class="stat-number" data-target={stat.value}>0</span
+                >{stat.suffix && <span class="stat-suffix">{stat.suffix}</span>}
+              </p>
+              <p class="text-white/70 text-sm md:text-base">{stat.label}</p>
+            </div>
+          );
+        })
+      }
+    </div>
+
     <hr class="border-t border-white/30 mb-24" />
 
     <div class="mb-24">
-      <h2 class="text-blue-950 text-4xl md:text-5xl font-bold mb-12 font-[Rubik]">
+      <h2
+        class="text-blue-950 text-4xl md:text-5xl font-bold mb-12 font-[Rubik]"
+        id="competitions"
+      >
         COMPETITIONS
       </h2>
 
       <div class="grid md:grid-cols-3 gap-8">
-        {competitions.map((comp) => (
-          <div class="flex flex-col">
-            <div class="aspect-[4/3] rounded-lg overflow-hidden bg-white/5 mb-4">
-              <img
-                src={comp.image}
-                alt={comp.title}
-                class="w-full h-full object-cover"
-              />
+        {
+          competitions.map((comp) => (
+            <div class="flex flex-col">
+              <div class="aspect-[4/3] rounded-lg overflow-hidden bg-white/5 mb-4">
+                <img
+                  src={comp.image}
+                  alt={comp.title}
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <span class="flex items-center justify-center mb-2 gap-6">
+                <img
+                  src={`/img/icon/${comp.icon}.svg`}
+                  alt={`${comp.title} Icon`}
+                  class="w-8 h-8 mb-2"
+                />
+                <h3 class="text-black text-xl font-bold text-center mb-2">
+                  {comp.title}
+                </h3>
+              </span>
+              <p class="text-black/70 text-center text-sm leading-relaxed">
+                {comp.description}
+              </p>
             </div>
-            <h3 class="text-black text-xl font-bold text-center mb-2">{comp.title}</h3>
-            <p class="text-black/70 text-center text-sm leading-relaxed">
-              {comp.description}
-            </p>
-          </div>
-        ))}
+          ))
+        }
       </div>
     </div>
 
@@ -124,11 +192,15 @@ const competitions: Competition[] = [
         />
       </div>
       <div>
-        <h2 class="text-blue-950 text-4xl md:text-5xl font-bold md:text-left mb-6 font-[Rubik]">
+        <h2
+          class="text-blue-950 text-4xl md:text-5xl font-bold md:text-left mb-6 font-[Rubik]"
+        >
           HOW TO QUALIFY
         </h2>
         <div class="w-full h-px bg-white/30 mb-6"></div>
-        <p class="text-black/70 text-center md:text-left text-lg leading-relaxed">
+        <p
+          class="text-black/70 text-center md:text-left text-lg leading-relaxed"
+        >
           For a team to qualify for OEC, they must win their respective
           university's qualifier competition. Contact your Engineering Society's
           VP External or VP Academic for more information.
@@ -137,3 +209,32 @@ const competitions: Competition[] = [
     </div>
   </div>
 </section>
+
+<script>
+  const numbers = document.querySelectorAll(".stat-number");
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseInt(el.dataset.target, 10);
+          const duration = 2000;
+          const start = performance.now();
+
+          function update(now) {
+            const t = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - t, 3);
+            el.textContent = Math.round(eased * target).toLocaleString();
+            if (t < 1) requestAnimationFrame(update);
+          }
+
+          requestAnimationFrame(update);
+          observer.unobserve(el);
+        }
+      });
+    },
+    { threshold: 0.5 },
+  );
+
+  numbers.forEach((n) => observer.observe(n));
+</script>

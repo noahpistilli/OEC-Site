@@ -1,0 +1,53 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import Button from "../components/Button.astro";
+import { Download } from "@lucide/astro";
+---
+
+<Layout siteTitle="Map | Ontario Engineering Competition 2027">
+    <Navbar currentPage="Map" />
+    <main class="min-h-screen max-w-7xl mx-auto px-8 md:px-16 pt-32 pb-24">
+        <div class="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 mb-8">
+            <div>
+                <h1 class="text-4xl md:text-5xl font-bold font-[Rubik] text-blue-950 mb-2">
+                    CAMPUS MAP
+                </h1>
+                <p class="text-black/70 text-lg">
+                    Find your way around the Toronto Metropolitan University campus.
+                </p>
+            </div>
+            <Button
+                href="https://www.torontomu.ca/content/dam/maps/pdf/campus_map.pdf"
+                download="campus_map.pdf"
+                target="_blank"
+            >
+                <Download class="w-5 h-5" />
+                Download Map (PDF)
+            </Button>
+        </div>
+        <div class="h-[75vh] rounded-lg overflow-hidden shadow-lg border border-gray-200">
+            <iframe
+                src="https://www.torontomu.ca/maps/"
+                title="TMU Campus Map"
+                class="w-full h-full"
+                frameborder="0"
+                allowfullscreen
+                loading="lazy"
+            ></iframe>
+        </div>
+        <p class="mt-4 text-center text-black/70">
+            Can't see the map?{" "}
+            <a
+                href="https://www.torontomu.ca/maps/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-blue-600 hover:text-blue-700 underline"
+            >
+                Open the TMU Campus Map in a new tab
+            </a>
+        </p>
+    </main>
+    <Footer />
+</Layout>

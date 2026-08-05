@@ -1,11 +1,12 @@
 ---
-import { ChevronDown } from '@lucide/astro';
+import { ChevronDown, Mail, Download } from '@lucide/astro';
+import Button from './Button.astro';
 ---
 
 <div class="w-screen h-screen relative overflow-hidden">
     <div
         id="hero-text"
-        class="mb-8 max-w-7xl absolute inset-0 z-20 flex flex-col items-start justify-end text-white text-left px-8 md:px-16 mx-auto"
+        class="pt-32 max-w-7xl absolute inset-0 z-20 flex flex-col items-start justify-end text-white text-left px-8 md:px-16 mx-auto"
     >
         <img src="/img/oec_logo.svg" alt="OEC Logo" class="w-32 h-32 mb-8" />
         <p class="mb-6 text-2xl">Toronto Metropolitan University proudly presents...</p>
@@ -20,6 +21,22 @@ import { ChevronDown } from '@lucide/astro';
             id="countdown"
             class="mt-8 flex gap-3 justify-start text-2xl font-bold"
         >
+        </div>
+
+        <div class="mt-8 flex flex-wrap gap-4">
+            <Button href="mailto:oec.communications@essco.ca">
+                <Mail class="w-5 h-5" />
+                Contact Us
+            </Button>
+            <Button
+                href="/OEC_2026_Delegate_Package.pdf"
+                download="OEC_2026_Delegate_Package.pdf"
+                target="_blank"
+                variant="secondary"
+            >
+                <Download class="w-5 h-5" />
+                Delegate Package
+            </Button>
         </div>
 
         <ChevronDown class="mt-8 w-10 h-10 text-white" />

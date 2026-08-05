@@ -5,20 +5,13 @@ import Navbar from "../components/Navbar.astro";
 import Sponsors from "../components/Sponsors.astro";
 import About from "../components/About.astro";
 import Footer from "../components/Footer.astro";
-
-const navItems = [
-    { label: "Home", href: "/" },
-    { label: "About", href: "/about" },
-    { label: "Map", href: "/map" },
-    { label: "Competitions", href: "/competitions" },
-];
 ---
 
 <Layout siteTitle="Ontario Engineering Competition 2027">
-    <Navbar scrollEffect={true} navItems={navItems} currentPage="Home" />
+    <Navbar scrollEffect={true} currentPage="Home" />
     <Hero />
     <div
-        class="w-full h-screen bg-gradient-to-b from-[rgb(16,46,123)] from-25% to-transparent z-0 absolute"
+        class="w-full h-[calc(100vh+500px)] bg-gradient-to-b from-[rgb(16,46,123)] from-25% to-transparent z-0 absolute"
     >
     </div>
     <div class="max-w-7xl mx-auto relative z-10">
