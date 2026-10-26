@@ -28,15 +28,6 @@ import Button from './Button.astro';
                 <Mail class="w-5 h-5" />
                 Contact Us
             </Button>
-            <Button
-                href="/OEC_2026_Delegate_Package.pdf"
-                download="OEC_2026_Delegate_Package.pdf"
-                target="_blank"
-                variant="secondary"
-            >
-                <Download class="w-5 h-5" />
-                Delegate Package
-            </Button>
         </div>
 
         <ChevronDown class="mt-8 w-10 h-10 text-white" />
@@ -83,7 +74,7 @@ import Button from './Button.astro';
     const script = document.createElement("script");
     script.src = "/countdown.min.js";
     script.onload = () => {
-        const target = new Date("2026-12-31T00:00:00");
+        const target = new Date("2027-01-22T00:00:00-05:00");
         const el = document.getElementById("countdown");
 
         if (el) {
